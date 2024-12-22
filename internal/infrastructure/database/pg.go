@@ -26,3 +26,10 @@ func (database Database) Connect() {
 		}
 	}(database.db)
 }
+
+func (database Database) Query(query string) {
+	exec, err := database.db.Exec(query)
+	if err != nil {
+		return
+	}
+}
