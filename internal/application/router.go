@@ -6,7 +6,9 @@ import (
 )
 
 func (app *Application) RegisterRoutes(r *gin.Engine) {
-	pingController := controllers.PingController{}
+	pingController := controllers.PingController{
+		DB: app.db,
+	}
 
 	r.GET("/ping", func(context *gin.Context) {
 		pingController.Index(context)

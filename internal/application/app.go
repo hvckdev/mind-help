@@ -1,12 +1,15 @@
 package application
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/go-pg/pg/v10"
 	"github.com/joho/godotenv"
-	"mind-help/internal/infrastructure/database"
+	"mind-help/internal/application/database"
 )
 
 type Application struct {
+	db *pg.DB
 }
 
 func (app *Application) Start() {
@@ -24,7 +27,14 @@ func (app *Application) loadEnvironmentVariables() {
 }
 
 func (app *Application) connectToDB() {
-	database.Database{}.Connect()
+	conf := Config{}.Database()
+
+	app.db = database.Database{}.Connect(&pg.Options{
+		Addr:     fmt.Sprintf("%s:%s", conf.Host, conf.Port),
+		User:     conf.User,
+		Password: conf.Password,
+		Database: conf.Database,
+	})
 }
 
 func (app *Application) runRouter() {
