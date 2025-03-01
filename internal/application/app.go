@@ -20,6 +20,7 @@ type Application struct {
 func (app *Application) Start() {
 	app.loadEnvironmentVariables()
 	app.connectToDB()
+	app.migrate()
 
 	app.runRouter()
 }
@@ -40,6 +41,10 @@ func (app *Application) connectToDB() {
 		Password: conf.Password,
 		Database: conf.Database,
 	})
+}
+
+func (app *Application) migrate() {
+	conf := Config{}.Database()
 
 	log.Printf("%s:%s@%s:%s/%s?sslmode=disable", conf.User, conf.Password, conf.Host, conf.Port, conf.Database)
 	m, err := migrate.New("file://migrations", fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=disable", conf.User, conf.Password, conf.Host, conf.Port, conf.Database))
