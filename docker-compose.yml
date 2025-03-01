@@ -7,7 +7,7 @@ services:
     environment:
       POSTGRES_PASSWORD: abcde123
       POSTGRES_DB: mind
-      POSTGRES_USER: mind
+      POSTGRES_USER: postgres
     volumes:
       - db-data:/var/lib/postgresql/data
   adminer:

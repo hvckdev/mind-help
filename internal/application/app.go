@@ -1,10 +1,15 @@
 package application
 
 import (
+	"errors"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/go-pg/pg/v10"
+	"github.com/golang-migrate/migrate/v4"
+	_ "github.com/golang-migrate/migrate/v4/database/postgres"
+	_ "github.com/golang-migrate/migrate/v4/source/file"
 	"github.com/joho/godotenv"
+	"log"
 	"mind-help/internal/application/database"
 )
 
@@ -35,6 +40,20 @@ func (app *Application) connectToDB() {
 		Password: conf.Password,
 		Database: conf.Database,
 	})
+
+	defer app.db.Close()
+
+	log.Printf("%s:%s@%s:%s/%s?sslmode=disable", conf.User, conf.Password, conf.Host, conf.Port, conf.Database)
+	m, err := migrate.New("file://migrations", fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=disable", conf.User, conf.Password, conf.Host, conf.Port, conf.Database))
+	if err != nil {
+		log.Panicf("Migrations init error: %s", err)
+	}
+
+	if err := m.Up(); err != nil && !errors.Is(err, migrate.ErrNoChange) {
+		log.Panicf("Up err: %v", err)
+	}
+
+	log.Println("Migrations success")
 }
 
 func (app *Application) runRouter() {
