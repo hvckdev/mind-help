@@ -41,8 +41,6 @@ func (app *Application) connectToDB() {
 		Database: conf.Database,
 	})
 
-	defer app.db.Close()
-
 	log.Printf("%s:%s@%s:%s/%s?sslmode=disable", conf.User, conf.Password, conf.Host, conf.Port, conf.Database)
 	m, err := migrate.New("file://migrations", fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=disable", conf.User, conf.Password, conf.Host, conf.Port, conf.Database))
 	if err != nil {

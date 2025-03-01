@@ -18,8 +18,8 @@ func (pingController *PingController) Index(c *gin.Context) {
 		Name:         "sdfsdf",
 		Email:        "sdfsdfsdf",
 		Password:     "sdfsdfsdf",
-		RegisteredAt: time.Time{},
-		UpdatedAt:    time.Time{},
+		RegisteredAt: time.Now(),
+		UpdatedAt:    time.Now(),
 	}
 
 	_, err := pingController.DB.Model(model).Insert()
