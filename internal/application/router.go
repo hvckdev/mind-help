@@ -8,14 +8,6 @@ import (
 )
 
 func (app *Application) RegisterRoutes(r *gin.Engine) {
-	pingController := controller.PingController{
-		DB: app.db,
-	}
-
-	r.GET("/ping", func(context *gin.Context) {
-		pingController.Index(context)
-	})
-
 	userController := controller.UserController{
 		Service: service.UserService{
 			Repository: &repository.UserRepository{
