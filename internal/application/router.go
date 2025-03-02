@@ -11,7 +11,7 @@ func (app *Application) RegisterRoutes(r *gin.Engine) {
 	userController := controller.UserController{
 		Service: service.UserService{
 			Repository: &repository.UserRepository{
-				Db: app.db,
+				DB: app.db,
 			},
 		},
 	}

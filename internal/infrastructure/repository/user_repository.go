@@ -7,7 +7,7 @@ import (
 )
 
 type UserRepository struct {
-	Db *pg.DB
+	DB *pg.DB
 }
 
 func (r *UserRepository) GetById(id int) entity.User {
@@ -16,7 +16,7 @@ func (r *UserRepository) GetById(id int) entity.User {
 }
 
 func (r *UserRepository) Save(newUser *entity.User) (orm.Model, error) {
-	insert, err := r.Db.Model(newUser).Insert()
+	insert, err := r.DB.Model(newUser).Insert()
 	if err != nil {
 		return nil, err
 	}
