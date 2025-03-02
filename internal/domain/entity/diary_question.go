@@ -1,4 +1,4 @@
-package entities
+package entity
 
 type DiaryQuestion struct {
 	Question Question `json:"question"`

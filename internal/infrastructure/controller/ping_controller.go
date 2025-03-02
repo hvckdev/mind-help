@@ -1,9 +1,9 @@
-package controllers
+package controller
 
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/go-pg/pg/v10"
-	"mind-help/internal/domain/entities"
+	"mind-help/internal/domain/entity"
 	"net/http"
 	"time"
 )
@@ -13,7 +13,7 @@ type PingController struct {
 }
 
 func (pingController *PingController) Index(c *gin.Context) {
-	model := &entities.User{
+	model := &entity.User{
 		ID:           0,
 		Name:         "sdfsdf",
 		Email:        "sdfsdfsdf",

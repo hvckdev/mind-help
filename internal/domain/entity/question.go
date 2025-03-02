@@ -1,9 +1,9 @@
-package entities
+package entity
 
 import "time"
 
-type Diary struct {
-	ID        int64     `json:"ID"`
+type Question struct {
+	ID        int64     `json:"id,omitempty"`
 	Name      string    `json:"name"`
 	CreatedAt time.Time `json:"createdAt"`
 	UpdatedAt time.Time `json:"updatedAt"`
