@@ -4,13 +4,16 @@ import (
 	"errors"
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/gin-gonic/gin/binding"
 	"github.com/go-pg/pg/v10"
+	"github.com/go-playground/validator/v10"
 	"github.com/golang-migrate/migrate/v4"
 	_ "github.com/golang-migrate/migrate/v4/database/postgres"
 	_ "github.com/golang-migrate/migrate/v4/source/file"
 	"github.com/joho/godotenv"
 	"log"
 	"mind-help/internal/application/database"
+	"mind-help/internal/infrastructure/customvalidator"
 )
 
 type Application struct {
@@ -71,6 +74,22 @@ func (app *Application) runRouter() {
 
 func (app *Application) createRouter() *gin.Engine {
 	r := gin.Default()
+
+	if v, ok := binding.Validator.Engine().(*validator.Validate); ok {
+		err := v.RegisterValidation("confirmPassword", customvalidator.PasswordConfirmationValidation)
+		if err != nil {
+			return nil
+		}
+
+		emailValidator := &customvalidator.UniqueEmailValidator{
+			DB: app.db,
+		}
+
+		err = v.RegisterValidation("unique", emailValidator.UniqueEmailValidation)
+		if err != nil {
+			return nil
+		}
+	}
 
 	return r
 }
