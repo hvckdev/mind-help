@@ -6,6 +6,7 @@ import (
 )
 
 type UserRepository interface {
-	GetById(id int) entity.User
+	GetById(id int) (entity.User, error)
+	GetByEmail(email string) (entity.User, error)
 	Save(newUser *entity.User) (orm.Model, error)
 }

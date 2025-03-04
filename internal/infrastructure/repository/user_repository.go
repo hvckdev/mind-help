@@ -24,7 +24,7 @@ func (r *UserRepository) GetById(userId int) (entity.User, error) {
 func (r *UserRepository) GetByEmail(email string) (entity.User, error) {
 	var user entity.User
 
-	err := r.DB.Model(&user).Where("id = ?", email).Select()
+	err := r.DB.Model(&user).Where("email = ?", email).Select()
 	if err != nil {
 		return entity.User{}, err
 	}
