@@ -14,6 +14,7 @@ import (
 	"log"
 	"mind-help/internal/application/database"
 	"mind-help/internal/infrastructure/customvalidator"
+	"mind-help/internal/infrastructure/repository"
 )
 
 type Application struct {
@@ -82,7 +83,7 @@ func (app *Application) createRouter() *gin.Engine {
 		}
 
 		emailValidator := &customvalidator.UniqueEmailValidator{
-			DB: app.db,
+			R: repository.UserRepository{DB: app.db},
 		}
 
 		err = v.RegisterValidation("unique", emailValidator.UniqueEmailValidation)

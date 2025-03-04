@@ -10,9 +10,26 @@ type UserRepository struct {
 	DB *pg.DB
 }
 
-func (r *UserRepository) GetById(id int) entity.User {
-	//TODO implement me
-	panic("implement me")
+func (r *UserRepository) GetById(userId int) (entity.User, error) {
+	var user entity.User
+
+	err := r.DB.Model(&user).Where("id = ?", userId).Select()
+	if err != nil {
+		return entity.User{}, err
+	}
+
+	return user, err
+}
+
+func (r *UserRepository) GetByEmail(email string) (entity.User, error) {
+	var user entity.User
+
+	err := r.DB.Model(&user).Where("id = ?", email).Select()
+	if err != nil {
+		return entity.User{}, err
+	}
+
+	return user, nil
 }
 
 func (r *UserRepository) Save(newUser *entity.User) (orm.Model, error) {

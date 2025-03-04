@@ -1,20 +1,18 @@
 package customvalidator
 
 import (
-	"github.com/go-pg/pg/v10"
 	"github.com/go-playground/validator/v10"
-	"mind-help/internal/domain/entity"
+	"mind-help/internal/infrastructure/repository"
 )
 
 type UniqueEmailValidator struct {
-	DB *pg.DB
+	R repository.UserRepository
 }
 
 func (v *UniqueEmailValidator) UniqueEmailValidation(fl validator.FieldLevel) bool {
 	email := fl.Field().String()
 
-	var user entity.User
-	err := v.DB.Model(&user).Where("email = ?", email).Select()
+	_, err := v.R.GetByEmail(email)
 
 	return err != nil
 }
