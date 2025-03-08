@@ -3,6 +3,7 @@ package controller
 import (
 	"github.com/form3tech-oss/jwt-go"
 	"github.com/gin-gonic/gin"
+	"mind-help/internal/domain/entity"
 	"mind-help/internal/infrastructure/request/user"
 	"mind-help/internal/infrastructure/service"
 	"net/http"
@@ -37,5 +38,6 @@ func (userController *UserController) Login(c *gin.Context) {
 		return
 	}
 
-	jwt.New(jwt.SigningMethodHS256)
+	var user entity.User
+
 }

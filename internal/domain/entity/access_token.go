@@ -2,10 +2,11 @@ package entity
 
 import (
 	"github.com/form3tech-oss/jwt-go"
-	"mind-help/internal/domain/entity"
+	"time"
 )
 
 type AccessToken struct {
-	User  entity.User
-	Token jwt.Token
+	User    User
+	Token   *jwt.Token
+	Expires time.Time
 }
